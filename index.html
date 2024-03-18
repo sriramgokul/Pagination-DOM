@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM Pagination</title>
+    <style>
+       
+    h1{
+    background-color:#7acfd8;
+    padding-left: 50px;
+    }
+    label {
+    display: inline;
+    }
+    p{
+    display: inline;
+    }
+    button{
+    
+    background-color: #500615; /* Green */
+    border: 1 px solid black;
+    color: white;
+    padding: 5px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 0px 0px;
+    transition-duration: 0.5s;
+    cursor: pointer;
+    border-radius: 10px;
+    }
+    
+    button:hover {
+        background-color: white;
+        border: 1px solid black;
+        border-radius: 10px;
+        color: black;
+    }
+    .btn{
+        background-color: #3c0303;
+    }
+    button{
+        margin-top: 10px;
+    }
+    .abc{
+        color:black;
+    }
+    #para{
+        margin-left: 75px;
+    }
+    #name{
+        margin-left:57px;
+    }
+    #k{
+        flex: auto;
+        margin-left: 50px;
+        margin-bottom: 0px;
+        padding-bottom: 4px;
+    }
+    #email{
+        margin-left: 50px;
+    }
+       
+    </style>
+<body>
+    <h1 id="title">User Details</h1><hr>
+    <p id="description">This pagination data are displaying the Id, Name, email of the user</p>
+   <div class="table-responsive">
+             <!-- <table class="table table-border"></table>  -->
+   </div>  
+    <!-- changes page number -->
+    <br>
+    <div font-family: sans-serif;>current page: 
+        <p class="changes"></p>
+    </div>
+    <div class="button">
+        <button class="firstBtn">First</button>
+        <button class="prevBtn">Previous</button>
+        <button class="btn btn1">1</button>
+        <button class="btn btn2">2</button>
+        <button class="btn btn3">3</button>
+        <button class="btn btn4">4</button>
+        <button class="btn btn5">5</button>
+        <button class="nextBtn">Next</button>
+        <button class="lastBtn">Last</button>
+        <div id="buttons" class="d-flex" type="button"></div>
+    </div>
+    <div>
+        <table class="table table-bordered">
+            <tr>
+                <thead>
+                    <th>id</th>
+                    <th>name</th>
+                    <th>email</th>
+                   
+                </thead>
+            </tr>
+            <tbody id="data">
+
+            </tbody>
+
+        </table>
+    </div>
+    <script>
+        const firstBtn=document.querySelector(".firstBtn")
+const prevBtn=document.querySelector(".prevBtn")
+const nextBtn=document.querySelector(".nextBtn")
+const lastBtn=document.querySelector(".lastBtn")
+
+const btn1=document.querySelector(".btn1");
+const btn2=document.querySelector(".btn2");
+const btn3=document.querySelector(".btn3");
+const btn4=document.querySelector(".btn4");
+const btn5=document.querySelector(".btn5");
+
+
+//to set value for page
+let page=document.getElementsByClassName("changes")[0];
+
+//set starging item position with 0
+let currentItem=0;
+let curPage=0/5+1;
+
+//Try to load the data for first page when page load
+window.addEventListener("DOMContentLoaded",()=>{
+  displayEmployees(currentItem);
+  page.innerHTML=(currentItem/5+1);
+})
+
+//Logic for previous user when user click on button
+prevBtn.addEventListener("click",()=>{
+  //decreament current postion to 5.
+  if(0<currentItem){
+    currentItem-=5;
+    page.innerHTML=(currentItem/5+1);
+    displayEmployees(currentItem);
+  }else{
+    alert("You are already in first page.")
+  }
+})
+
+//Logic for next page when user click on next button
+nextBtn.addEventListener("click",()=>{
+  //increase current position to 5.
+  if(employees.length-10>currentItem){
+    currentItem+=5;
+    page.innerHTML=(currentItem/5+1);
+    displayEmployees(currentItem);
+  }else{
+    alert("You are already in last page")
+  }
+})
+
+//logic for first button
+firstBtn.addEventListener("click",()=>{
+  if(currentItem>0){
+  currentItem=0;
+  page.innerHTML=(currentItem/5+1);
+  displayEmployees(currentItem);
+}else{
+  alert("You are alread in First page")
+}
+})
+
+//logic for last button
+lastBtn.addEventListener("click",()=>{
+  if(currentItem<employees.length-5){
+  currentItem=employees.length-5;
+  page.innerHTML=(currentItem/5+1);
+  displayEmployees(currentItem);
+}else{
+  alert("You are already in last page")
+}
+})
+
+//button from 1 to 5 code are below:
+btn1.addEventListener("click",()=>{
+  currentItem=0;
+  page.innerHTML=currentItem/5+1;
+  displayEmployees(currentItem);
+});
+btn2.addEventListener("click",()=>{
+  currentItem=5;
+  page.innerHTML=currentItem/5+1;
+  displayEmployees(currentItem);
+});
+btn3.addEventListener("click",()=>{
+  currentItem=10;
+  page.innerHTML=currentItem/5+1;
+  displayEmployees(currentItem);
+});
+btn4.addEventListener("click",()=>{
+  currentItem=15;
+  page.innerHTML=currentItem/5+1;
+  displayEmployees(currentItem);
+});
+btn5.addEventListener("click",()=>{
+  currentItem=20;
+  page.innerHTML=currentItem/5+1;
+  displayEmployees(currentItem);
+});
+
+function displayEmployees(start){
+  let addTo=document.querySelector(".table-responsive");
+
+  let dum="";
+  for(let i=start;i<start+5;i++){
+    dum+=(`
+    <div id="k">
+    <div >
+       <label>Id:</lable>
+       <p id="para">${employees[i].id}</p>
+    </div>
+    <div>
+       <label>Name:</lable>
+       <p id="name">${employees[i].name}</p>
+    </div>
+    <div>
+       <label >email:</lable>
+       <p id="email">${employees[i].email}</p>
+    </div>
+    </div >
+  `);
+  addTo.innerHTML=dum;
+}
+}
+    </script>
+    <script src="https://app.zenclass.in/sheets/v1/js/zen/suite/bundle.js"></script>
+</body>
+</html>
